@@ -69,13 +69,11 @@ namespace BBB.Main
                 });
 
                 services.AddScoped<ICategoryRepository, CategoryRepository>();
-                services.AddScoped<ITagRepository, TagRepository>();
                 services.AddScoped<IUserRepository, UserRepository>();
                 services.AddScoped<IPostRepository, PostRepository>();
                 //services.AddScoped<IFileSaveRepository, FileSaveRepository>();
 
                 services.AddScoped<ICategoryServices, CategoryServices>();
-                services.AddScoped<ITagServices, TagServices>();
                 services.AddScoped<IUserServices, UserServices>();
                 //services.AddScoped<IPostServices, PostServices>();
                 //services.AddScoped<IFileSaveServices, FileSaveServices>();

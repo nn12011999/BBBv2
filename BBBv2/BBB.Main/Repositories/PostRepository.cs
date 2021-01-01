@@ -34,7 +34,7 @@ namespace BBB.Main.Repositories
 
         public IList<Post> GetAllPost()
         {
-            var query = _context.Posts.Include(x => x.PostTags).ToList();
+            var query = _context.Posts.ToList();
             return query;
         }
         public IList<Post> GetByCategoryId(int Id)

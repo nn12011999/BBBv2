@@ -20,6 +20,5 @@ namespace BBB.Data.Entities
         public string Context { get; set; }
         public string Url { get; set; }
         public DateTime TimeStamp { get; set; }
-        public virtual ICollection<PostTag> PostTags { get; set; }
     }
 }

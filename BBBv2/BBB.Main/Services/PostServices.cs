@@ -7,46 +7,27 @@ using System.Threading.Tasks;
 
 namespace BBB.Main.Services
 {
-    public class TagServices : ITagServices
+    public class PostServices : IPostServices
     {
         private ApplicationDbContext _context;
-        public TagServices(ApplicationDbContext context)
+        public PostServices(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public string AddTag(Tag tag)
-        {
-            try 
-            {
-                _context.Tags.Add(tag);
-                var response = _context.SaveChanges();
-                if (response < 1)
-                {
-                    return "Cannot execute. Plz contact Admin";
-                }
-                tag.Url = tag.Name.Replace(" ", "-") + "-" + tag.Id;
-                _context.Tags.Update(tag);
-                response = _context.SaveChanges();
-                if (response < 1)
-                {
-                    return "Cannot execute. Plz contact Admin";
-                }
-                return "OK";
-            }
-            catch(Exception ex)
-            {
-                return ex.Message.ToString();
-            }
-        }
-
-        public string DeleteTag(Tag tag)
+        public string AddPost(Post Post)
         {
             try
             {
-                _context.Tags.Attach(tag);
-                _context.Tags.Remove(tag);
+                _context.Posts.Add(Post);
                 var response = _context.SaveChanges();
+                if (response < 1)
+                {
+                    return "Cannot execute. Plz contact Admin";
+                }
+                Post.Url = Post.Title.Replace(" ", "-") + "-" + Post.Id;
+                _context.Posts.Update(Post);
+                response = _context.SaveChanges();
                 if (response < 1)
                 {
                     return "Cannot execute. Plz contact Admin";
@@ -59,12 +40,12 @@ namespace BBB.Main.Services
             }
         }
 
-        public string UpdateTag(Tag tag)
+        public string DeletePost(Post Post)
         {
             try
             {
-                tag.Url = tag.Name.Replace(" ", "-") + "-" + tag.Id;
-                _context.Tags.Update(tag);
+                _context.Posts.Attach(Post);
+                _context.Posts.Remove(Post);
                 var response = _context.SaveChanges();
                 if (response < 1)
                 {
