@@ -93,6 +93,14 @@ namespace BBB.Main
 
             app.UseHttpsRedirection();
 
+            app.UseCors(builder => builder
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseAuthorization();
