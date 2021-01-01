@@ -8,5 +8,9 @@
     <ProjectReference Include="..\BBB.Data\BBB.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 
 </Project>
