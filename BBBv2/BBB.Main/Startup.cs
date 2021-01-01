@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BBB.Data;
+using BBB.Data.DataModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -67,7 +68,9 @@ namespace BBB.Main
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app,
+                        ApplicationDbContext context,
+                        IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -84,6 +87,9 @@ namespace BBB.Main
             {
                 endpoints.MapControllers();
             });
+
+            SeedData.SeedCategoryData(context);
+            SeedData.SeedUserData(context);
         }
     }
 }
