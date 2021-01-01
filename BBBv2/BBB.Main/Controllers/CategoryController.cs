@@ -89,7 +89,11 @@ namespace BBB.Main.Controllers
             var response = _categoryServices.AddCategory(category);
             if (response != "OK")
             {
-                return BadRequest("Can not execute. Plz contact admin");
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = "Can not execute. Plz contact admin"
+                });
             }
             return Ok(response);
         }
@@ -181,7 +185,11 @@ namespace BBB.Main.Controllers
             var response = _categoryServices.UpdateCategory(category);
             if (response != "OK")
             {
-                return BadRequest("Can not execute. Plz contact admin");
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = "Can not execute. Plz contact admin"
+                });
             }
             return Ok(response);
         }
@@ -192,7 +200,11 @@ namespace BBB.Main.Controllers
             var response = _categoryRepository.FindById(request.Id);
             if (response == null)
             {
-                return BadRequest("Category not found");
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = "Category not found"
+                });
             }    
             return Ok(response);
         }
@@ -203,7 +215,11 @@ namespace BBB.Main.Controllers
             var response = _categoryRepository.FindByUrl(request.Url);
             if (response == null)
             {
-                return BadRequest("Category not found");
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = "Category not found"
+                });
             }
             return Ok(response);
         }
