@@ -33,7 +33,8 @@ namespace BBB.Main.Repositories
                     UserId = x.UserId,
                     PostId = x.PostId,
                     Context = x.Context,
-                    UserName = x.User.UserName
+                    UserName = x.User.UserName,
+                    TimeStamp = x.TimeStamp
                 }).ToList();
         }
 
@@ -49,7 +50,8 @@ namespace BBB.Main.Repositories
                    UserId = x.UserId,
                    PostId = x.PostId,
                    Context = x.Context,
-                   UserName = x.User.UserName
+                   UserName = x.User.UserName,
+                   TimeStamp = x.TimeStamp
                 }).ToList();
         }
 

@@ -173,11 +173,11 @@ namespace BBB.Main.Controllers
         }
 
         [HttpGet("get-comment-of-post-by-url")]
-        public IActionResult GetCommentOfPostByPostUrl(string url)
+        public IActionResult GetCommentOfPostByPostUrl(string Url)
         {
             try
             {
-                var response = _commentRepository.GetByPostUrl(url);
+                var response = _commentRepository.GetByPostUrl(Url);
                 return Ok(response);
             }
             catch (Exception e)
