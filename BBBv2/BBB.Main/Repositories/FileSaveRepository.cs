@@ -25,7 +25,10 @@ namespace BBB.Main.Repositories
                 FileName = x.FileName,
                 FileType = x.FileType ,
                 Id = x.Id,
-                Url = x.Url})
+                Url = x.Url,
+                CategoryId = x.CategoryId,
+                Title = x.Title
+            })
             .ToList();
         }
 
@@ -40,7 +43,10 @@ namespace BBB.Main.Repositories
                 .Select(x=>new FileSave {
                         Id = x.Id,
                         FileName = x.FileName,
-                        Url = x.Url})
+                        Url = x.Url,
+                        CategoryId = x.CategoryId,
+                        Title = x.Title
+                })
                 .FirstOrDefault();
         }
 
@@ -56,7 +62,9 @@ namespace BBB.Main.Repositories
                 {
                     Id = x.Id,
                     FileName = x.FileName,
-                    Url = x.Url
+                    Url = x.Url,
+                    CategoryId = x.CategoryId,
+                    Title = x.Title
                 })
                 .FirstOrDefault();
         }

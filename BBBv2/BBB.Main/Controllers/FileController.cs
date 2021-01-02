@@ -27,7 +27,9 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> OnPostUploadAsync([FromForm] IFormFile file)
+        public async Task<IActionResult> OnPostUploadAsync([FromForm] IFormFile file,
+                                                            [FromForm] string title,
+                                                            [FromForm] int CategoryId)
         {
 
             if (file.Length > 0 && file.ContentType.Contains("video"))
@@ -42,6 +44,8 @@ namespace BBB.Main.Controllers
                         f.FileName = file.FileName;
                         f.FileType = file.ContentType;
                         f.FileData = ms.ToArray();
+                        f.Title = title;
+                        f.CategoryId = CategoryId;
                         var result = await _fileSaveServices.AddFileSave(f);
                         if (result != "OK")
                         {

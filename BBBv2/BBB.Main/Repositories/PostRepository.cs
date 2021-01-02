@@ -1,4 +1,5 @@
 ﻿using BBB.Data;
+using BBB.Data.DataModel.Response;
 using BBB.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -51,11 +52,21 @@ namespace BBB.Main.Repositories
             return query;
         }
 
-        public IList<Post> GetPostByCategoryUrl(string url)
+        public IList<GetPostResponse> GetPostByCategoryUrl(string url)
         {
             return _context.Posts
                 .Include(c => c.Category)
                 .Where(x => x.Category.Slug == url)
+                .Select(x => new GetPostResponse
+                {
+                    Id = x.Id,
+                    CategoryId = x.CategoryId,
+                    Context = x.Context,
+                    TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy HH:mm"),
+                    Title = x.Title,
+                    Url = x.Url,
+                    UserId = x.UserId
+                })
                 .ToList();
         }
     }
