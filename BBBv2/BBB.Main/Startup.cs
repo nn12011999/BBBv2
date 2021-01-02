@@ -71,12 +71,12 @@ namespace BBB.Main
                 services.AddScoped<ICategoryRepository, CategoryRepository>();
                 services.AddScoped<IUserRepository, UserRepository>();
                 services.AddScoped<IPostRepository, PostRepository>();
-                //services.AddScoped<IFileSaveRepository, FileSaveRepository>();
+                services.AddScoped<IFileSaveRepository, FileSaveRepository>();
 
                 services.AddScoped<ICategoryServices, CategoryServices>();
                 services.AddScoped<IUserServices, UserServices>();
-                //services.AddScoped<IPostServices, PostServices>();
-                //services.AddScoped<IFileSaveServices, FileSaveServices>();
+                services.AddScoped<IPostServices, PostServices>();
+                services.AddScoped<IFileSaveServices, FileSaveServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

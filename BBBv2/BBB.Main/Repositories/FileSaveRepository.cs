@@ -19,13 +19,46 @@ namespace BBB.Main.Repositories
             return _context.FileSaves.ToList();
         }
 
+        public IList<FileSave> GetAllWithOutData()
+        {
+            return _context.FileSaves.Select(x => new FileSave {
+                FileName = x.FileName,
+                FileType = x.FileType ,
+                Id = x.Id,
+                Url = x.Url})
+            .ToList();
+        }
+
         public FileSave GetById(int Id)
         {
             return  _context.FileSaves.Find(Id);
         }
+
+        public FileSave GetByIdWithOutData(int Id)
+        {
+            return _context.FileSaves.Where(x=> x.Id == Id)
+                .Select(x=>new FileSave {
+                        Id = x.Id,
+                        FileName = x.FileName,
+                        Url = x.Url})
+                .FirstOrDefault();
+        }
+
         public FileSave GetByUrl(string url)
         {
             return _context.FileSaves.Where(x=> x.Url == url).FirstOrDefault();
+        }
+
+        public FileSave GetByUrlWithOutData(string url)
+        {
+            return _context.FileSaves.Where(x => x.Url == url)
+                .Select(x => new FileSave
+                {
+                    Id = x.Id,
+                    FileName = x.FileName,
+                    Url = x.Url
+                })
+                .FirstOrDefault();
         }
     }
 }

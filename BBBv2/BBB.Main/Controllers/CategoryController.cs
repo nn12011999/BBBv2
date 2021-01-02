@@ -223,5 +223,12 @@ namespace BBB.Main.Controllers
             }
             return Ok(response);
         }
+
+        [HttpPost("check")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
+        public IActionResult CheckToken()
+        {
+            return Ok();
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace BBB.Main.Services
             }
             catch (Exception ex)
             {
-                return ex.Message.ToString();
+                throw ex;
             }
         }
         public string DeleteFileSave(FileSave fileSave)

@@ -10,5 +10,6 @@ namespace BBB.Data.Entities
         public virtual Post Post { get; set; }
         public int UserId { get; set; }
         public virtual User User{get;set;}
+        public string Context { get; set; }
     }
 }
