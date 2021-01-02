@@ -28,6 +28,7 @@ namespace BBB.Main.Repositories
         {
             return _context.Comments.Where(c => c.PostId == id)
                 .Include(c => c.User)
+                .OrderBy(x => x.TimeStamp)
                 .Select(x=>new GetCommentOfPostResponse {
                     Id = x.Id,
                     UserId = x.UserId,
@@ -35,7 +36,7 @@ namespace BBB.Main.Repositories
                     Context = x.Context,
                     UserName = x.User.UserName,
                     TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy")
-                }).OrderBy(x => x.TimeStamp).ToList();
+                }).ToList();
         }
 
         public IList<GetCommentOfPostResponse> GetByPostUrl(string url)
@@ -43,6 +44,7 @@ namespace BBB.Main.Repositories
             return _context.Comments
                 .Include(c => c.User)
                 .Include(p => p.Post)
+                .OrderBy(x => x.TimeStamp)
                 .Where(x => x.Post.Url == url)
                 .Select(x => new GetCommentOfPostResponse
                 {
@@ -52,7 +54,7 @@ namespace BBB.Main.Repositories
                    Context = x.Context,
                    UserName = x.User.UserName,
                    TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy")
-                }).OrderBy(x=>x.TimeStamp).ToList();
+                }).ToList();
         }
 
         public IList<Comment> GetByUserId(int id)
