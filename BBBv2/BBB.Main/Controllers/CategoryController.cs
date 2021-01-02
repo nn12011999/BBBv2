@@ -5,6 +5,7 @@ using BBB.Main.Repositories;
 using BBB.Main.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace BBB.Main.Controllers
 {
@@ -24,209 +25,287 @@ namespace BBB.Main.Controllers
         [HttpGet("get-all")]
         public IActionResult GetAllCategory()
         {
-            var response = _categoryRepository.GetAllCategory();
-            if(response == null)
+            try
+            {
+                var response = _categoryRepository.GetAllCategory();
+                if (response == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not get category."
+                    });
+                };
+                foreach (var item in response)
+                {
+                    if (item != null && item.ParentCategory != null)
+                    {
+                        item.ParentCategory.ParentCategory = null;
+                    }
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Can not get category."
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
-            };
-            foreach(var item in response)
-            {
-                if (item !=null && item.ParentCategory!=null)
-                {
-                    item.ParentCategory.ParentCategory = null;
-                }    
-            }    
-            return Ok(response);
+            }
         }
 
         [HttpPost("add-category")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult AddCategory([FromBody] AddCategoryRequest request)
         {
-            if (request == null)
+            try
             {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "Please provide input information correctly."
-                });
-            }     
-
-            if (request.ParentId != null )
-            {
-                var parent = _categoryRepository.FindById((int)request.ParentId);
-                if (parent == null)
+                if (request == null)
                 {
                     return BadRequest(new ErrorViewModel
                     {
                         ErrorCode = "400",
-                        ErrorMessage = "Parent category not found"
+                        ErrorMessage = "Please provide input information correctly."
                     });
                 }
-            }    
 
-            var categoryQuery = _categoryRepository.FindByName(request.CategoryName);
-            if (categoryQuery != null )
+                if (request.ParentId != null)
+                {
+                    var parent = _categoryRepository.FindById((int)request.ParentId);
+                    if (parent == null)
+                    {
+                        return BadRequest(new ErrorViewModel
+                        {
+                            ErrorCode = "400",
+                            ErrorMessage = "Parent category not found"
+                        });
+                    }
+                }
+
+                var categoryQuery = _categoryRepository.FindByName(request.CategoryName);
+                if (categoryQuery != null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Category have been create"
+                    });
+                }
+
+                var category = new Category()
+                {
+                    Name = request.CategoryName,
+                    ParentId = request.ParentId,
+                };
+
+                var response = _categoryServices.AddCategory(category);
+                if (response != "OK")
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not execute. Plz contact admin"
+                    });
+                }
+                return Ok(response);
+
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Category have been create"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-
-            var category = new Category()
-            {
-                Name = request.CategoryName,
-                ParentId = request.ParentId,
-            };
-
-            var response = _categoryServices.AddCategory(category);
-            if (response != "OK")
-            {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "Can not execute. Plz contact admin"
-                });
-            }
-            return Ok(response);
         }
 
         [HttpPost("delete-category")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult DeleteCategory([FromBody] DeleteCategoryRequest request)
         {
-            if (request == null)
+            try
             {
-                return BadRequest(new ErrorViewModel
+                if (request == null)
                 {
-                    ErrorCode = "400",
-                    ErrorMessage = "Please provide input information correctly."
-                });
-            }
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Please provide input information correctly."
+                    });
+                }
 
-            if (request.CategoryId <= 0)
-            {
-                return BadRequest(new ErrorViewModel
+                if (request.CategoryId <= 0)
                 {
-                    ErrorCode = "400",
-                    ErrorMessage = "Category not found"
-                });
-            }
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Category not found"
+                    });
+                }
 
-            var category = _categoryRepository.FindById(request.CategoryId);
-            if (category == null)
-            {
-                return BadRequest(new ErrorViewModel
+                var category = _categoryRepository.FindById(request.CategoryId);
+                if (category == null)
                 {
-                    ErrorCode = "400",
-                    ErrorMessage = "Category not found"
-                });
-            }
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Category not found"
+                    });
+                }
 
-            var response = _categoryServices.DeleteCategory(category);
-            if (response != "OK")
+                var response = _categoryServices.DeleteCategory(category);
+                if (response != "OK")
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not execute. Plz contact admin"
+                    });
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Can not execute. Plz contact admin"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-            return Ok(response);
         }
 
         [HttpPost("update-category")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult UpdateCategory([FromBody] UpdateCategoryRequest request)
         {
-            if (request == null)
+            try
             {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "Please provide input information correctly."
-                });
-            }
-
-            var category = _categoryRepository.FindById(request.CategoryId);
-            if (category == null)
-            {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "Category not found"
-                });
-            }
-
-            if (request.ParentId != null)
-            {
-                var parent = _categoryRepository.FindById(request.ParentId.GetValueOrDefault());
-                if (parent == null)
+                if (request == null)
                 {
                     return BadRequest(new ErrorViewModel
                     {
                         ErrorCode = "400",
-                        ErrorMessage = "Parent category not found"
+                        ErrorMessage = "Please provide input information correctly."
                     });
                 }
+
+                var category = _categoryRepository.FindById(request.CategoryId);
+                if (category == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Category not found"
+                    });
+                }
+
+                if (request.ParentId != null)
+                {
+                    var parent = _categoryRepository.FindById(request.ParentId.GetValueOrDefault());
+                    if (parent == null)
+                    {
+                        return BadRequest(new ErrorViewModel
+                        {
+                            ErrorCode = "400",
+                            ErrorMessage = "Parent category not found"
+                        });
+                    }
+                }
+
+                category.ParentId = request.ParentId;
+                category.Name = request.CategoryName;
+
+                var response = _categoryServices.UpdateCategory(category);
+                if (response != "OK")
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not execute. Plz contact admin"
+                    });
+                }
+                return Ok(response);
             }
-
-            category.ParentId = request.ParentId;
-            category.Name = request.CategoryName;
-
-            var response = _categoryServices.UpdateCategory(category);
-            if (response != "OK")
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Can not execute. Plz contact admin"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-            return Ok(response);
         }
 
         [HttpGet("get-by-id")]
         public IActionResult GetCategoryById(int id)
         {
-            var response = _categoryRepository.FindById(id);
-            if (response == null)
+            try
+            {
+                var response = _categoryRepository.FindById(id);
+                if (response == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Category not found"
+                    });
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Category not found"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
-            }    
-            return Ok(response);
+            }
         }
 
         [HttpGet("get-by-url")]
         public IActionResult GetCategoryByUrl(string url)
         {
-            var response = _categoryRepository.FindByUrl(url);
-            if (response == null)
+            try
+            {
+                var response = _categoryRepository.FindByUrl(url);
+                if (response == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Category not found"
+                    });
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Category not found"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-            return Ok(response);
         }
 
         [HttpPost("check")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult CheckToken()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = $"Server Error: {e.Message}"
+                });
+            }
         }
     }
 }
