@@ -163,6 +163,24 @@ namespace BBB.Main.Controllers
             }
         }
 
+        [HttpGet("get-video-by-url-without-data")]
+        public IActionResult GetVideoByUrlWithoutData(string url)
+        {
+            try
+            {
+                var response = _fileSaveRepository.GetByUrlWithOutData(url);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = $"Server Error: {e.Message}"
+                });
+            }
+        }
+
         [HttpGet("get-by-category")]
         public IActionResult GetByCategory(string url)
         {
