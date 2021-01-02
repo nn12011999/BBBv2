@@ -154,12 +154,30 @@ namespace BBB.Main.Controllers
             }
         }
 
-        [HttpGet("get-comment-of-post")]
+        [HttpGet("get-comment-of-post-by-id")]
         public IActionResult GetCommentOfPostByPostId(int id)
         {
             try
             {
                 var response = _commentRepository.GetByPostId(id);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = $"Server Error: {e.Message}"
+                });
+            }
+        }
+
+        [HttpGet("get-comment-of-post-by-url")]
+        public IActionResult GetCommentOfPostByPostUrl(string url)
+        {
+            try
+            {
+                var response = _commentRepository.GetByPostUrl(url);
                 return Ok(response);
             }
             catch (Exception e)
