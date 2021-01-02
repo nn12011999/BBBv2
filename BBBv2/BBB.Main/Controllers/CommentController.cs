@@ -96,6 +96,14 @@ namespace BBB.Main.Controllers
                         ErrorMessage = "Comment not found"
                     });
                 }
+                if (comment.UserId != request.UserId)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User can't change this comment"
+                    });
+                }
 
                 var response = _commentServices.UpdateComment(comment);
                 if (response != "OK")
@@ -119,17 +127,25 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("delete-comment")]
-        public IActionResult DeleteComment([FromBody] RequestById request)
+        public IActionResult DeleteComment([FromBody] DeleteCommentRequest request)
         {
             try
             {
-                var comment = _commentRepository.GetById(request.Id);
+                var comment = _commentRepository.GetById(request.CommentId);
                 if (comment == null)
                 {
                     return BadRequest(new ErrorViewModel
                     {
                         ErrorCode = "400",
                         ErrorMessage = "Comment not found"
+                    });
+                }
+                if (comment.UserId != request.UserId)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User can't change this comment"
                     });
                 }
 
