@@ -108,11 +108,11 @@ namespace BBB.Main.Controllers
         }
 
         [HttpGet("get-video-by-id")]
-        public IActionResult GetVideoById([FromBody] RequestById request)
+        public IActionResult GetVideoById(int id)
         {
             try
             {
-                var response = _fileSaveRepository.GetById(request.Id);
+                var response = _fileSaveRepository.GetById(id);
                 if (response == null)
                 {
                     return BadRequest(new ErrorViewModel
@@ -134,11 +134,11 @@ namespace BBB.Main.Controllers
         }
 
         [HttpGet("get-video-by-url")]
-        public IActionResult GetVideoByUrl([FromBody] RequestByUrl request)
+        public IActionResult GetVideoByUrl(string url)
         {
             try
             {
-                var response = _fileSaveRepository.GetByUrl(request.Url);
+                var response = _fileSaveRepository.GetByUrl(url);
                 if (response == null)
                 {
                     return BadRequest(new ErrorViewModel

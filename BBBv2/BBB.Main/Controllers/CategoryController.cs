@@ -83,7 +83,6 @@ namespace BBB.Main.Controllers
             {
                 Name = request.CategoryName,
                 ParentId = request.ParentId,
-                Slug = request.Slug
             };
 
             var response = _categoryServices.AddCategory(category);
@@ -180,7 +179,6 @@ namespace BBB.Main.Controllers
 
             category.ParentId = request.ParentId;
             category.Name = request.CategoryName;
-            category.Slug = request.Slug;
 
             var response = _categoryServices.UpdateCategory(category);
             if (response != "OK")
@@ -195,9 +193,9 @@ namespace BBB.Main.Controllers
         }
 
         [HttpGet("get-by-id")]
-        public IActionResult GetCategoryById([FromBody] RequestById request)
+        public IActionResult GetCategoryById(int id)
         {
-            var response = _categoryRepository.FindById(request.Id);
+            var response = _categoryRepository.FindById(id);
             if (response == null)
             {
                 return BadRequest(new ErrorViewModel
@@ -210,9 +208,9 @@ namespace BBB.Main.Controllers
         }
 
         [HttpGet("get-by-url")]
-        public IActionResult GetCategoryByUrl([FromBody] RequestByUrl request)
+        public IActionResult GetCategoryByUrl(string url)
         {
-            var response = _categoryRepository.FindByUrl(request.Url);
+            var response = _categoryRepository.FindByUrl(url);
             if (response == null)
             {
                 return BadRequest(new ErrorViewModel

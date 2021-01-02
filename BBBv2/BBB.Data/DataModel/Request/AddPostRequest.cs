@@ -10,7 +10,5 @@ namespace BBB.Data.DataModel.Request
         public int CategoryId { get; set; }
         public string Title { get; set; }
         public string Context { get; set; }
-        public string Url { get; set; }
-        public DateTime TimeStamp { get; set; }
     }
 }

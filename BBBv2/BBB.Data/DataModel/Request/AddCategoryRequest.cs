@@ -8,6 +8,5 @@ namespace BBB.Data.DataModel.Request
     {
         public string CategoryName { get; set; }
         public int? ParentId { get; set; }
-        public string Slug { get; set; }
     }
 }

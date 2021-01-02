@@ -36,7 +36,7 @@ namespace BBB.Main.Services
             }
             catch (Exception ex)
             {
-                return ex.Message.ToString();
+                throw ex;
             }
         }
 
@@ -55,7 +55,7 @@ namespace BBB.Main.Services
             }
             catch (Exception ex)
             {
-                return ex.Message.ToString();
+                throw ex;
             }
         }
     }

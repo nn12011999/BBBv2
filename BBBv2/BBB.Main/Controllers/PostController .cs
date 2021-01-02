@@ -85,8 +85,7 @@ namespace BBB.Main.Controllers
             {
                 Title = request.Title,
                 Context = request.Context,
-                Url = request.Url,
-                TimeStamp = request.TimeStamp,
+                TimeStamp = DateTime.UtcNow,
                 CategoryId = request.CategoryId,
                 UserId = request.UserId
             };
@@ -193,8 +192,7 @@ namespace BBB.Main.Controllers
             
             Post.Title = request.Title;
             Post.Context = request.Context;
-            Post.Url = request.Url;
-            Post.TimeStamp = request.TimeStamp;
+            Post.TimeStamp = DateTime.UtcNow;
             Post.CategoryId = request.CategoryId;
             Post.UserId = request.UserId;
 
@@ -219,9 +217,9 @@ namespace BBB.Main.Controllers
         }
 
         [HttpGet("get-by-url")]
-        public IActionResult GetPostByUrl([FromBody] RequestByUrl request)
+        public IActionResult GetPostByUrl(string url)
         {
-            var response = _postRepository.FindByUrl(request.Url);
+            var response = _postRepository.FindByUrl(url);
             if (response == null)
             {
                 return BadRequest("Post not found");
