@@ -34,7 +34,7 @@ namespace BBB.Main.Repositories
                     PostId = x.PostId,
                     Context = x.Context,
                     UserName = x.User.UserName,
-                    TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy")
+                    TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy HH:mm")
                 }).ToList();
         }
 
@@ -52,7 +52,7 @@ namespace BBB.Main.Repositories
                    PostId = x.PostId,
                    Context = x.Context,
                    UserName = x.User.UserName,
-                   TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy")
+                   TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy HH:mm")
                 }).ToList();
         }
 
