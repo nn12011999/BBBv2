@@ -162,5 +162,23 @@ namespace BBB.Main.Controllers
                 });
             }
         }
+
+        [HttpGet("get-by-category")]
+        public IActionResult GetByCategory(string url)
+        {
+            try
+            {
+                var response = _fileSaveRepository.GetByCategoryUrl(url);
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = $"Server Error: {e.Message}"
+                });
+            }
+        }
     }
 }

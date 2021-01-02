@@ -1,5 +1,6 @@
 ﻿using BBB.Data;
 using BBB.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -30,6 +31,22 @@ namespace BBB.Main.Repositories
                 Title = x.Title
             })
             .ToList();
+        }
+
+        public IList<FileSave> GetByCategoryUrl(string url)
+        {
+            return _context.FileSaves
+                .Include(x => x.Category)
+                .Where(x => x.Category.Slug == url)
+                .Select(x => new FileSave
+                {
+                    Id = x.Id,
+                    FileName = x.FileName,
+                    Url = x.Url,
+                    CategoryId = x.CategoryId,
+                    Title = x.Title
+                })
+                .ToList();
         }
 
         public FileSave GetById(int Id)

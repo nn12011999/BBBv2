@@ -12,5 +12,6 @@ namespace BBB.Main.Repositories
         public FileSave GetByUrl(string url);
         public FileSave GetByIdWithOutData(int Id);
         public FileSave GetByUrlWithOutData(string url);
+        public IList<FileSave> GetByCategoryUrl(string url);
     }
 }
