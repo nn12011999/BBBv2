@@ -70,7 +70,7 @@ namespace BBB.Main.Controllers
                         ErrorMessage = "Can not execute. Plz contact admin"
                     });
                 }
-                return Ok(comment);
+                return Ok();
             }
             catch (Exception e)
             {
