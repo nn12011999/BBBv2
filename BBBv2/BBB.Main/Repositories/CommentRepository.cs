@@ -24,22 +24,32 @@ namespace BBB.Main.Repositories
             return _context.Comments.Find(id);
         }
 
-        public IList<GetCommentOfPostByPostId> GetByPostId(int id)
+        public IList<GetCommentOfPostResponse> GetByPostId(int id)
         {
             return _context.Comments.Where(c => c.PostId == id)
                 .Include(c => c.User)
-                .Select(x=>new GetCommentOfPostByPostId {
+                .Select(x=>new GetCommentOfPostResponse {
+                    Id = x.Id,
+                    UserId = x.UserId,
+                    PostId = x.PostId,
+                    Context = x.Context,
+                    UserName = x.User.UserName
                 }).ToList();
         }
 
-        public IList<GetCommentOfPostByPostId> GetByPostUrl(string url)
+        public IList<GetCommentOfPostResponse> GetByPostUrl(string url)
         {
             return _context.Comments
                 .Include(c => c.User)
                 .Include(p => p.Post)
                 .Where(x => x.Post.Url == url)
-                .Select(x => new GetCommentOfPostByPostId
+                .Select(x => new GetCommentOfPostResponse
                 {
+                   Id = x.Id,
+                   UserId = x.UserId,
+                   PostId = x.PostId,
+                   Context = x.Context,
+                   UserName = x.User.UserName
                 }).ToList();
         }
 

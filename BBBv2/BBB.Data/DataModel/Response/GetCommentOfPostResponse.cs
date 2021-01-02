@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BBB.Data.DataModel.Response
 {
-    public class GetCommentOfPostByPostId
+    public class GetCommentOfPostResponse
     {
         public int Id { get; set; }
         public int PostId { get; set; }
