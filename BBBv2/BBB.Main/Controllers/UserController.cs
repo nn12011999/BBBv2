@@ -28,176 +28,242 @@ namespace BBB.Main.Controllers
         [HttpGet("get-all")]
         public IActionResult GetAllUser()
         {
-            return Ok(_userRepository.GetAllUser());
+            try
+            {
+                return Ok(_userRepository.GetAllUser());
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = $"Server Error: {e.Message}"
+                });
+            }
         }
 
         [HttpPost("add-user")]
         public IActionResult AddUser([FromBody] AddUserRequest request)
         {
-            if (request == null)
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Please provide input information correctly."
+                    });
+                }
+
+
+                var UserQuery = _userRepository.FindByName(request.UserName);
+                if (UserQuery != null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User have been create"
+                    });
+                }
+
+                var User = new User()
+                {
+                    UserName = request.UserName,
+                    Password = request.Password
+                };
+
+                var response = _userServices.AddUser(User);
+                if (response != "OK")
+                {
+
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not execute. Plz contact admin"
+                    });
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Please provide input information correctly."
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-
-
-            var UserQuery = _userRepository.FindByName(request.UserName);
-            if (UserQuery != null)
-            {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "User have been create"
-                });
-            }
-
-            var User = new User()
-            {
-                UserName = request.UserName,
-                Password = request.Password
-            };
-
-            var response = _userServices.AddUser(User);
-            if (response != "OK")
-            {
-
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "Can not execute. Plz contact admin"
-                });
-            }
-            return Ok(response);
         }
 
         [HttpPost("delete-user")]
         public IActionResult DeleteUser([FromBody] DeleteUserRequest request)
         {
-            if (request == null)
+            try
             {
-                return BadRequest(new ErrorViewModel
+                if (request == null)
                 {
-                    ErrorCode = "400",
-                    ErrorMessage = "Please provide input information correctly."
-                });
-            }
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Please provide input information correctly."
+                    });
+                }
 
-            if (request.UserId <= 0)
-            {
-                return BadRequest(new ErrorViewModel
+                if (request.UserId <= 0)
                 {
-                    ErrorCode = "400",
-                    ErrorMessage = "User not found"
-                });
-            }
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User not found"
+                    });
+                }
 
-            var User = _userRepository.FindById(request.UserId);
-            if (User == null)
-            {
-                return BadRequest(new ErrorViewModel
+                var User = _userRepository.FindById(request.UserId);
+                if (User == null)
                 {
-                    ErrorCode = "400",
-                    ErrorMessage = "User not found"
-                });
-            }
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User not found"
+                    });
+                }
 
-            var response = _userServices.DeleteUser(User);
-            if (response != "OK")
+                var response = _userServices.DeleteUser(User);
+                if (response != "OK")
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not execute. Plz contact admin"
+                    });
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Can not execute. Plz contact admin"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-            return Ok(response);
         }
 
         [HttpPost("update-user")]
         public IActionResult UpdateUser([FromBody] UpdateUserRequest request)
         {
-            if (request == null)
+            try
+            {
+                if (request == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Please provide input information correctly."
+                    });
+                }
+
+                if (request.UserId <= 0)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User not found"
+                    });
+                }
+
+                var User = _userRepository.FindById(request.UserId);
+                if (User == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User not found"
+                    });
+                }
+
+                User.UserName = request.UserName;
+                User.Role = request.Role;
+
+                var response = _userServices.UpdateUser(User);
+                if (response != "OK")
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not execute. Plz contact admin"
+                    });
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "Please provide input information correctly."
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-
-            if (request.UserId <= 0)
-            {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "User not found"
-                });
-            }
-
-            var User = _userRepository.FindById(request.UserId);
-            if (User == null)
-            {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "User not found"
-                });
-            }
-
-            User.UserName = request.UserName;
-            User.Role = request.Role;
-
-            var response = _userServices.UpdateUser(User);
-            if (response != "OK")
-            {
-                return BadRequest(new ErrorViewModel
-                {
-                    ErrorCode = "400",
-                    ErrorMessage = "Can not execute. Plz contact admin"
-                });
-            }
-            return Ok(response);
         }
 
         [HttpPost("get-by-id")]
         [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult GetUserById([FromBody] RequestById request)
         {
-            var response = _userRepository.FindById(request.Id);
-            if (response == null)
+            try
+            {
+                var response = _userRepository.FindById(request.Id);
+                if (response == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "User not found"
+                    });
+                }
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "User not found"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-            return Ok(response);
         }
 
         [HttpPost("authentiate")]
         public IActionResult Authenticate([FromBody] AuthenticateRequest request)
         {
-            var query = _userRepository.FindByNameAndPassword(request.UserName, request.Password);
-            if(query == null)
+            try
+            {
+                var query = _userRepository.FindByNameAndPassword(request.UserName, request.Password);
+                if (query == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "UserName or Password incorrect.Plz try again"
+                    });
+                }
+                var response = new AuthenticateRessponse
+                {
+                    Id = query.Id,
+                    UserName = query.UserName,
+                    Role = query.Role,
+                    Token = _userServices.GenerateJSONWebToken(query)
+                };
+                return Ok(response);
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorViewModel
                 {
                     ErrorCode = "400",
-                    ErrorMessage = "UserName or Password incorrect.Plz try again"
+                    ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-            var response = new AuthenticateRessponse
-            {
-                Id = query.Id,
-                UserName = query.UserName,
-                Role = query.Role,
-                Token = _userServices.GenerateJSONWebToken(query)
-            };
-            return Ok(response);
         }
     }
 }
