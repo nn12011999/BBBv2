@@ -1,5 +1,7 @@
 ﻿using BBB.Data;
+using BBB.Data.DataModel.Response;
 using BBB.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,14 +24,18 @@ namespace BBB.Main.Repositories
             return _context.Comments.Find(id);
         }
 
-        public IList<Comment> GetByPostId(int id)
+        public IList<GetCommentOfPostByPostId> GetByPostId(int id)
         {
-            return _context.Comments.Where(c => c.PostId == id).ToList();
+            return _context.Comments.Where(c => c.PostId == id)
+                .Include(c => c.User)
+                .Select(x=>new GetCommentOfPostByPostId {
+                }).ToList();
         }
 
         public IList<Comment> GetByUserId(int id)
         {
-            return _context.Comments.Where(c => c.UserId == id).ToList();
+            return _context.Comments.Where(c => c.UserId == id)
+                .Include(c => c.User).ToList();
         }
     }
 }

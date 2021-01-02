@@ -1,4 +1,5 @@
-﻿using BBB.Data.Entities;
+﻿using BBB.Data.DataModel.Response;
+using BBB.Data.Entities;
 using System.Collections.Generic;
 
 namespace BBB.Main.Repositories
@@ -6,7 +7,7 @@ namespace BBB.Main.Repositories
     public interface ICommentRepository
     {
         IList<Comment> GetAll();
-        IList<Comment> GetByPostId(int id);
+        IList<GetCommentOfPostByPostId> GetByPostId(int id);
         IList<Comment> GetByUserId(int id);
         Comment GetById(int id);
     }
