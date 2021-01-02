@@ -27,8 +27,7 @@ namespace BBB.Main.Repositories
         public IList<GetCommentOfPostResponse> GetByPostId(int id)
         {
             return _context.Comments.Where(c => c.PostId == id)
-                .Include(c => c.User)
-                .OrderBy(x => x.TimeStamp)
+                .Include(c => c.User).OrderByDescending(x => x.TimeStamp)
                 .Select(x=>new GetCommentOfPostResponse {
                     Id = x.Id,
                     UserId = x.UserId,
@@ -44,7 +43,7 @@ namespace BBB.Main.Repositories
             return _context.Comments
                 .Include(c => c.User)
                 .Include(p => p.Post)
-                .OrderBy(x => x.TimeStamp)
+                .OrderByDescending(x => x.TimeStamp)
                 .Where(x => x.Post.Url == url)
                 .Select(x => new GetCommentOfPostResponse
                 {
