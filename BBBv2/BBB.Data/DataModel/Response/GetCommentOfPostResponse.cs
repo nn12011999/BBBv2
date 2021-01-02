@@ -11,6 +11,6 @@ namespace BBB.Data.DataModel.Response
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Context { get; set; }
-        public DateTime TimeStamp { get; set; }
+        public string TimeStamp { get; set; }
     }
 }
