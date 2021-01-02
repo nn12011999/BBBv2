@@ -104,7 +104,7 @@ namespace BBB.Main.Controllers
                         ErrorMessage = "User can't change this comment"
                     });
                 }
-
+                comment.Context = request.Context;
                 var response = _commentServices.UpdateComment(comment);
                 if (response != "OK")
                 {
