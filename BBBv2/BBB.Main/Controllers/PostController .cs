@@ -196,13 +196,12 @@ namespace BBB.Main.Controllers
             Post.CategoryId = request.CategoryId;
             Post.UserId = request.UserId;
 
-            //var response = _postServices.UpdatePost(Post, tags);
-            //if (response != "OK")
-            //{
-            //    return BadRequest("Can not execute. Plz contact admin");
-            //}
-            //return Ok(response);
-            return Ok();
+            var response = _postServices.UpdatePost(Post);
+            if (response != "OK")
+            {
+                return BadRequest("Can not execute. Plz contact admin");
+            }
+            return Ok(response);
         }
 
         [HttpGet("get-by-id")]

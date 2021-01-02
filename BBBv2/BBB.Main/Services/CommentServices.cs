@@ -1,51 +1,21 @@
 ﻿using BBB.Data;
 using BBB.Data.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BBB.Main.Services
 {
-    public class PostServices : IPostServices
+    public class CommentServices : ICommentServices
     {
-        private ApplicationDbContext _context;
-        public PostServices(ApplicationDbContext context)
+        ApplicationDbContext _context;
+        CommentServices(ApplicationDbContext context)
         {
             _context = context;
         }
-
-        public string AddPost(Post Post)
+        public string AddComment(Comment comment)
         {
             try
             {
-                _context.Posts.Add(Post);
-                var response = _context.SaveChanges();
-                if (response < 1)
-                {
-                    return "Cannot execute. Plz contact Admin";
-                }
-                Post.Url = Post.Title.Replace(" ", "-") + "-" + Post.Id;
-                _context.Posts.Update(Post);
-                response = _context.SaveChanges();
-                if (response < 1)
-                {
-                    return "Cannot execute. Plz contact Admin";
-                }
-                return "OK";
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public string DeletePost(Post Post)
-        {
-            try
-            {
-                _context.Posts.Attach(Post);
-                _context.Posts.Remove(Post);
+                _context.Comments.Add(comment);
                 var response = _context.SaveChanges();
                 if (response < 1)
                 {
@@ -58,12 +28,30 @@ namespace BBB.Main.Services
                 throw ex;
             }
         }
-        public string UpdatePost(Post Post)
+
+        public string DeleteComment(Comment comment)
         {
             try
             {
-                Post.Url = Post.Title.Replace(" ", "-") + "-" + Post.Id;
-                _context.Posts.Update(Post);
+                _context.Comments.Remove(comment);
+                var response = _context.SaveChanges();
+                if (response < 1)
+                {
+                    return "Cannot execute. Plz contact Admin";
+                }
+                return "OK";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public string UpdateComment(Comment comment)
+        {
+            try
+            {
+                _context.Comments.Update(comment);
                 var response = _context.SaveChanges();
                 if (response < 1)
                 {
