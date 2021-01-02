@@ -50,5 +50,13 @@ namespace BBB.Main.Repositories
             }
             return query;
         }
+
+        public IList<Post> GetPostByCategoryUrl(string url)
+        {
+            return _context.Posts
+                .Include(c => c.Category)
+                .Where(x => x.Category.Slug == url)
+                .ToList();
+        }
     }
 }

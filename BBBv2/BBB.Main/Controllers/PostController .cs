@@ -289,6 +289,23 @@ namespace BBB.Main.Controllers
                     ErrorMessage = $"Server Error: {e.Message}"
                 });
             }
-        }        
+        }
+
+        [HttpGet("get-by-category-url")]
+        public IActionResult GetByCategoryUrk(string url)
+        {
+            try
+            {
+                return Ok(_postRepository.GetPostByCategoryUrl(url));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new ErrorViewModel
+                {
+                    ErrorCode = "400",
+                    ErrorMessage = $"Server Error: {e.Message}"
+                });
+            }
+        }
     }
 }
