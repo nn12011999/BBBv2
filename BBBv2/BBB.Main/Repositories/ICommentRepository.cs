@@ -8,5 +8,6 @@ namespace BBB.Main.Repositories
         IList<Comment> GetAll();
         IList<Comment> GetByPostId(int id);
         IList<Comment> GetByUserId(int id);
+        Comment GetById(int id);
     }
 }

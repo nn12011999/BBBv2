@@ -17,6 +17,11 @@ namespace BBB.Main.Repositories
             return _context.Comments.ToList();
         }
 
+        public Comment GetById(int id)
+        {
+            return _context.Comments.Find(id);
+        }
+
         public IList<Comment> GetByPostId(int id)
         {
             return _context.Comments.Where(c => c.PostId == id).ToList();

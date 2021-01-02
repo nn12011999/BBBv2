@@ -7,7 +7,7 @@ namespace BBB.Main.Services
     public class CommentServices : ICommentServices
     {
         ApplicationDbContext _context;
-        CommentServices(ApplicationDbContext context)
+        public CommentServices(ApplicationDbContext context)
         {
             _context = context;
         }
