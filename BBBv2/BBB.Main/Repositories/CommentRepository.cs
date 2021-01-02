@@ -35,7 +35,7 @@ namespace BBB.Main.Repositories
                     Context = x.Context,
                     UserName = x.User.UserName,
                     TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy")
-                }).ToList();
+                }).OrderBy(x => x.TimeStamp).ToList();
         }
 
         public IList<GetCommentOfPostResponse> GetByPostUrl(string url)
@@ -52,7 +52,7 @@ namespace BBB.Main.Repositories
                    Context = x.Context,
                    UserName = x.User.UserName,
                    TimeStamp = x.TimeStamp.ToString("dd/MM/yyyy")
-                }).ToList();
+                }).OrderBy(x=>x.TimeStamp).ToList();
         }
 
         public IList<Comment> GetByUserId(int id)
