@@ -29,9 +29,18 @@ namespace BBB.Data.DataModel
                 {
                     Name = "News",
                     ParentId = null,
+                    Editable = false
+                };
+
+                var blogs = new Category
+                {
+                    Name = "Blogs",
+                    ParentId = null,
+                    Editable = false
                 };
 
                 context.Categories.Add(news);
+                context.Categories.Add(blogs);
                 context.SaveChanges();
             }
         }

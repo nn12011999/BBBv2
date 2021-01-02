@@ -15,5 +15,6 @@ namespace BBB.Data.Entities
         public virtual Category ParentCategory { get; set; }
         public int? ParentId { get; set; }
         public string Slug { get; set; }
+        public bool Editable { get; set; } = true;
     }
 }

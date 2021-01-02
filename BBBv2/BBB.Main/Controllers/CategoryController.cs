@@ -154,6 +154,14 @@ namespace BBB.Main.Controllers
                         ErrorMessage = "Category not found"
                     });
                 }
+                if (!category.Editable )
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not change this category"
+                    });
+                }
 
                 var response = _categoryServices.DeleteCategory(category);
                 if (response != "OK")
@@ -212,6 +220,14 @@ namespace BBB.Main.Controllers
                             ErrorMessage = "Parent category not found"
                         });
                     }
+                }
+                if (!category.Editable)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Can not change this category"
+                    });
                 }
 
                 category.ParentId = request.ParentId;

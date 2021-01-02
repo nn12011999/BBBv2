@@ -21,5 +21,6 @@ namespace BBB.Data.Entities
         public string Url { get; set; }
         public DateTime TimeStamp { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
+        public bool Editable { get; set; }
     }
 }
