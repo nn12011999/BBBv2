@@ -3,12 +3,14 @@ using BBB.Data.DataModel.Response;
 using BBB.Data.Entities;
 using BBB.Main.Repositories;
 using BBB.Main.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BBB.Main.Controllers
@@ -50,6 +52,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("add-post")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult AddPost([FromBody] AddPostRequest request)
         {
             try
@@ -120,6 +123,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("delete-Post")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult DeletePost([FromBody] DeletePostRequest request)
         {
             try
@@ -170,6 +174,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("update-Post")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult UpdatePost([FromBody] UpdatePostRequest request)
         {
             try

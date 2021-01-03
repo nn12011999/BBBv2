@@ -30,6 +30,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("add-comment")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.UserAndAdmin)]
         public IActionResult AddComment([FromBody] AddCommentRequest request)
         {
             try
@@ -83,6 +84,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("update-comment")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.UserAndAdmin)]
         public IActionResult UpdateComment([FromBody] UpdateCommentRequest request)
         {
             try
@@ -127,6 +129,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("delete-comment")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.UserAndAdmin)]
         public IActionResult DeleteComment([FromBody] DeleteCommentRequest request)
         {
             try

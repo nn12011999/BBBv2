@@ -3,12 +3,14 @@ using BBB.Data.DataModel.Response;
 using BBB.Data.Entities;
 using BBB.Main.Repositories;
 using BBB.Main.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace BBB.Main.Controllers
@@ -27,6 +29,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("upload")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public async Task<IActionResult> OnPostUploadAsync([FromForm] IFormFile file,
                                                             [FromForm] string title,
                                                             [FromForm] int CategoryId,
@@ -78,6 +81,7 @@ namespace BBB.Main.Controllers
         }
 
         [HttpPost("delete-video")]
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = RoleDefine.Admin)]
         public IActionResult DeleteVideoById([FromBody] RequestById request)
         {
             try
