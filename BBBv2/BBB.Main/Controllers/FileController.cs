@@ -80,7 +80,25 @@ namespace BBB.Main.Controllers
         {
             try
             {
-                var response = _fileSaveRepository.GetAllWithOutData();
+                var video = _fileSaveRepository.GetById(request.Id);
+                if ( video == null)
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = "Video not found"
+                    });
+                }
+
+                var response = _fileSaveServices.DeleteFileSave(video);
+                if (response != "OK")
+                {
+                    return BadRequest(new ErrorViewModel
+                    {
+                        ErrorCode = "400",
+                        ErrorMessage = response
+                    });
+                }
                 return Ok(response);
             }
             catch (Exception e)
