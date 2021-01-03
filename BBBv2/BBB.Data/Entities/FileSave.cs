@@ -15,5 +15,6 @@ namespace BBB.Data.Entities
         [ForeignKey("CategoryId")]
         public virtual Category Category { get; set; }
         public int CategoryId { get; set; }
+        public string Thumnail { get; set; }
     }
 }

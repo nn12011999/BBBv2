@@ -28,7 +28,8 @@ namespace BBB.Main.Repositories
                 Id = x.Id,
                 Url = x.Url,
                 CategoryId = x.CategoryId,
-                Title = x.Title
+                Title = x.Title,
+                Thumnail = x.Thumnail
             })
             .ToList();
         }
@@ -44,7 +45,8 @@ namespace BBB.Main.Repositories
                     FileName = x.FileName,
                     Url = x.Url,
                     CategoryId = x.CategoryId,
-                    Title = x.Title
+                    Title = x.Title,
+                    Thumnail = x.Thumnail
                 })
                 .ToList();
         }
@@ -62,7 +64,8 @@ namespace BBB.Main.Repositories
                         FileName = x.FileName,
                         Url = x.Url,
                         CategoryId = x.CategoryId,
-                        Title = x.Title
+                        Title = x.Title,
+                        Thumnail = x.Thumnail
                 })
                 .FirstOrDefault();
         }
@@ -81,7 +84,8 @@ namespace BBB.Main.Repositories
                     FileName = x.FileName,
                     Url = x.Url,
                     CategoryId = x.CategoryId,
-                    Title = x.Title
+                    Title = x.Title,
+                    Thumnail = x.Thumnail
                 })
                 .FirstOrDefault();
         }
